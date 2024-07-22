@@ -8,7 +8,7 @@ int main() {
 
     cout << fixed;
     cout.precision(3);
-    cout << a << endl << b << endl << c << endl;
+    cout << a << "\n" << b << "\n" << c << "\n";
 
     return 0;
 }
