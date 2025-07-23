@@ -3,9 +3,7 @@ n, m, t = map(int, input().split())
 a = [list(map(int, input().split())) for _ in range(n)]
 
 # Get m marble positions
-marbles = [tuple(map(int, input().split())) for _ in range(m)]
-r = [pos[0] for pos in marbles]
-c = [pos[1] for pos in marbles]
+marbles = [tuple(map(lambda x: int(x) - 1, input().split())) for _ in range(m)]
 
 dxy = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
@@ -18,27 +16,15 @@ def move(x, y) -> tuple[int, int]:
         nx, ny = x + dx, y + dy
         if (in_range(nx, ny) and a[nx][ny] > a[max_x][max_y]):
             max_x, max_y = nx, ny
-    return max_x, max_y
+    return (max_x, max_y)
 
 for _ in range(t):
     # 구슬 이동
-    next_count = [tuple() for _ in range(len(marbles))]
-    for i in range(len(marbles)):
-        row, colm = r[i]-1, c[i]-1
-        nx, ny = move(row, colm)
-        next_count[i] = (nx, ny)
-
-    cnt = {}
-    for x in next_count:
-        if x in cnt:
-            cnt[x] += 1
-        else:
-            cnt[x] = 1
+    next_count = [move(x, y) for (x, y) in marbles]
     
-    next_count = [x for x in next_count if cnt[x] == 1]
-
-    marbles = next_count
-    r = [pos[0] for pos in marbles]
-    c = [pos[1] for pos in marbles]
+    cnt = {}
+    for pos in next_count:
+        cnt[pos] = cnt.get(pos, 0) + 1
+    marbles = [pos for pos in next_count if cnt[pos] == 1]
 
 print (len(marbles))
